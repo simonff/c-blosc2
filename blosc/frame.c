@@ -1235,7 +1235,7 @@ int64_t* blosc2_frame_get_offsets(blosc2_schunk *schunk) {
 }
 
 
-int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool new) {
+int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool create_new) {
   uint8_t* framep = frame->cframe;
   uint8_t* header_ptr;
   uint8_t header[FRAME_HEADER_MINLEN];
