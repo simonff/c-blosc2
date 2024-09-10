@@ -164,7 +164,7 @@ int frame_get_lazychunk(blosc2_frame_s* frame, int64_t nchunk, uint8_t **chunk, 
 int frame_decompress_chunk(blosc2_context* dctx, blosc2_frame_s* frame, int64_t nchunk,
                            void *dest, int32_t nbytes);
 
-int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool new);
+int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool create_new);
 int frame_update_trailer(blosc2_frame_s* frame, blosc2_schunk* schunk);
 
 int64_t frame_fill_special(blosc2_frame_s* frame, int64_t nitems, int special_value,
