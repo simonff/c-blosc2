@@ -1244,7 +1244,7 @@ int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool creat
     return BLOSC2_ERROR_INVALID_PARAM;
   }
 
-  if (new && schunk->cbytes > 0) {
+  if (create_new && schunk->cbytes > 0) {
     BLOSC_TRACE_ERROR("New metalayers cannot be added after actual data "
                       "has been appended.");
     return BLOSC2_ERROR_INVALID_PARAM;
@@ -1297,13 +1297,13 @@ int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool creat
   from_big(&h2len, h2 + FRAME_HEADER_LEN, sizeof(h2len));
 
   // The frame length is outdated when adding a new metalayer, so update it
-  if (new) {
+  if (create_new) {
     int64_t frame_len = h2len;  // at adding time, we only have to worry of the header for now
     to_big(h2 + FRAME_LEN, &frame_len, sizeof(frame_len));
     frame->len = frame_len;
   }
 
-  if (!new && prev_h2len != h2len) {
+  if (!create_new && prev_h2len != h2len) {
     BLOSC_TRACE_ERROR("The new metalayer sizes should be equal the existing ones.");
     return BLOSC2_ERROR_DATA;
   }
@@ -1327,7 +1327,7 @@ int frame_update_header(blosc2_frame_s* frame, blosc2_schunk* schunk, bool creat
     io_cb->close(fp);
   }
   else {
-    if (new) {
+    if (create_new) {
       frame->cframe = realloc(frame->cframe, h2len);
     }
     memcpy(frame->cframe, h2, h2len);
